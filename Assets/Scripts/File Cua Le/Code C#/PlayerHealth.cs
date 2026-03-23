@@ -1,22 +1,19 @@
-﻿using System.Collections;
+﻿using Saus.CoreSystem;
 using UnityEngine;
-using UnityEngine.Events;
+using UnityEngine.SceneManagement;
 
 public class PlayerHealth : MonoBehaviour
 {
     [Header("Config")]
-    [SerializeField] private Vector3 checkpointPos;   // Lưu checkpoint
+    [SerializeField] private Vector3 checkpointPos;
     [SerializeField] private int maxHealth = 100;
-
-    private Rigidbody2D rb;
-    private SpriteRenderer sr;
-    private Stats stats;
 
     [Header("UI")]
     public HealthBar healthBar;
 
-    [Header("Events")]
-    public UnityEvent OnDeath;
+    private Rigidbody2D rb;
+    private SpriteRenderer sr;
+    private Stats stats;
 
     private void Awake()
     {
@@ -27,73 +24,97 @@ public class PlayerHealth : MonoBehaviour
 
     private void Start()
     {
-        // checkpoint mặc định là vị trí spawn ban đầu
-        checkpointPos = transform.position;
+        LoadCheckpoint();
+        // 🆕 Load health từ PlayerPrefs nếu có
+        LoadHealth();
+        UpdateHealthUI();
+    }
 
+    // 🆕 Load health from PlayerPrefs
+    private void LoadHealth()
+    {
+        if (PlayerPrefs.HasKey("PlayerHealth") && stats != null)
+        {
+            int savedHealth = PlayerPrefs.GetInt("PlayerHealth", (int)stats.Health.MaxValue);
+            stats.Health.CurrentValue = savedHealth;
+            Debug.Log($"[PlayerHealth] Loaded health: {savedHealth}");
+        }
+    }
+
+    // 🆕 Save health to PlayerPrefs
+    public void SaveHealth()
+    {
         if (stats != null)
         {
-            // lắng nghe sự kiện từ Stats
-            stats.OnHealthChanged += HandleHealthChanged;
-            stats.OnHealthZero += HandleDeath;
-
-            // khởi tạo HP đầy
-            stats.ResetHealth();
+            int currentHealth = (int)stats.Health.CurrentValue;
+            PlayerPrefs.SetInt("PlayerHealth", currentHealth);
+            PlayerPrefs.Save();
+            Debug.Log($"[PlayerHealth] Saved health: {currentHealth}");
         }
-
-        // sync UI lần đầu
-        if (healthBar != null)
-            healthBar.UpdateBar(maxHealth, maxHealth);
     }
 
-    /// <summary>
-    /// Player bị quái hoặc trap gây sát thương
-    /// </summary>
-    public void TakeDamage(int damage)
+    private void LoadCheckpoint()
     {
-        if (damage <= 0 || stats == null) return;
+        string nextScene = PlayerPrefs.GetString("NextScene", SceneManager.GetActiveScene().name);
+        string checkpointScene = PlayerPrefs.GetString("CheckpointScene", "");
 
-        stats.DecreaseHealth(damage);
-        Debug.Log($"Player took {damage} damage");
+        if (!string.IsNullOrEmpty(checkpointScene) && checkpointScene == nextScene &&
+            PlayerPrefs.HasKey("CheckpointX") &&
+            PlayerPrefs.HasKey("CheckpointY") &&
+            PlayerPrefs.HasKey("CheckpointZ"))
+        {
+            float x = PlayerPrefs.GetFloat("CheckpointX");
+            float y = PlayerPrefs.GetFloat("CheckpointY");
+            float z = PlayerPrefs.GetFloat("CheckpointZ");
+            checkpointPos = new Vector3(x, y, z);
+            transform.position = checkpointPos;
+            Debug.Log("Loaded checkpoint for map: " + checkpointScene);
+        }
+        else
+        {
+            checkpointPos = transform.position;
+            Debug.Log("No checkpoint for this map. Spawn at default position: " + checkpointPos);
+        }
     }
 
-    /// <summary>
-    /// Cập nhật checkpoint mới khi player chạm checkpoint
-    /// </summary>
     public void UpdateCheckpoint(Vector3 newCheckpoint)
     {
         checkpointPos = newCheckpoint;
+        PlayerPrefs.SetFloat("CheckpointX", checkpointPos.x);
+        PlayerPrefs.SetFloat("CheckpointY", checkpointPos.y);
+        PlayerPrefs.SetFloat("CheckpointZ", checkpointPos.z);
+        PlayerPrefs.SetString("CheckpointScene", SceneManager.GetActiveScene().name);
+        PlayerPrefs.SetInt("HasCheckpoint", 1);
+        PlayerPrefs.Save();
+        Debug.Log("Checkpoint updated and saved at: " + checkpointPos);
     }
 
-    /// <summary>
-    /// Respawn player tại checkpoint, hồi máu đầy
-    /// </summary>
     public void RespawnAtCheckpoint()
     {
-        // đưa về vị trí checkpoint
         transform.position = checkpointPos;
-
-        // reset máu
-        stats?.ResetHealth();
-
-        // bật lại body + sprite
         if (rb != null) rb.bodyType = RigidbodyType2D.Dynamic;
         if (sr != null) sr.enabled = true;
 
+        UpdateHealthUI();
         Debug.Log("Player respawned at checkpoint: " + checkpointPos);
     }
 
-    // ------------------- PRIVATE HANDLERS -------------------
-
-    private void HandleHealthChanged(float current, float max)
+    private void UpdateHealthUI()
     {
-        if (healthBar != null)
-            healthBar.UpdateBar((int)current, (int)max);
+        if (healthBar != null && stats != null)
+            healthBar.UpdateBar((int)stats.Health.CurrentValue, (int)stats.Health.MaxValue);
     }
 
-    private void HandleDeath()
+    public void TakeDamage(int damage)
     {
-        OnDeath?.Invoke();
-        gameObject.SetActive(false); // tắt player → Watcher sẽ re-enable
-        Debug.Log("Player died (HandleDeath invoked).");
+        if (damage <= 0 || stats == null) return;
+        stats.Health.CurrentValue -= damage;
+        UpdateHealthUI();
+    }
+
+    // 🆕 Get current health value
+    public float GetCurrentHealth()
+    {
+        return stats != null ? stats.Health.CurrentValue : 0f;
     }
 }

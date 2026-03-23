@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 6240072112886026650}
   - component: {fileID: 6240072112886026649}
   - component: {fileID: 6240072112886026648}
-  - component: {fileID: 2599669667727956115}
+  - component: {fileID: 6489358945505531606}
   m_Layer: 0
   m_Name: Enemy1HitParticle 1
   m_TagString: ParticleContainer
@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 2, y: 2, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
@@ -107,7 +107,7 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &2599669667727956115
+--- !u!114 &6489358945505531606
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -116,6 +116,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 6240072112886026631}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e19258afbd465e4da2a96cc90ba21c9, type: 3}
+  m_Script: {fileID: 11500000, guid: 9a80112fba72c3c4eb8921339761dd43, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

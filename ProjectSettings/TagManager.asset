@@ -7,6 +7,8 @@ TagManager:
   - Obstacle
   - FallDetector
   - Checkpoint
+  - ParticleContainer
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -18,11 +20,11 @@ TagManager:
   - Celling
   - BackGround
   - Enemies
-  - 
-  - 
-  - 
-  - 
-  - 
+  - Chest
+  - Projectile
+  - Interactable
+  - WorldItem
+  - Damageable
   - 
   - 
   - 

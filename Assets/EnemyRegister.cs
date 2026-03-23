@@ -11,7 +11,7 @@ public class EnemyRegister : MonoBehaviour
             var entity = GetComponent<Entity>();
             if (entity != null)
             {
-                entity.SetInitialPosition(transform.position);
+                //entity.SetInitialPosition(transform.position);
                 EnemyManager.instance.RegisterEnemy(gameObject, originalPrefab);
                 Debug.Log($"Đã đăng ký Enemy: {gameObject.name} với EnemyManager");
             }

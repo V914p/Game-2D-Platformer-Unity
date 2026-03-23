@@ -109,7 +109,7 @@ public class CharacterController2D : MonoBehaviour
             m_Grounded = false;
             Vector2 jumpDirection = (surfaceNormal + Vector2.up).normalized;
             m_Rigidbody2D.velocity = Vector2.zero;
-            m_Rigidbody2D.AddForce(jumpDirection * m_JumpForce);
+            //m_Rigidbody2D.AddForce(jumpDirection * m_JumpForce);
         }
     }
 

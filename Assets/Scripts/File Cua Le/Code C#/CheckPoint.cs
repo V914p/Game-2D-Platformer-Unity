@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Saus.CoreSystem;  // 🆕 For WeaponInventory
 
 public class Checkpoint : MonoBehaviour
 {
@@ -27,6 +28,17 @@ public class Checkpoint : MonoBehaviour
                 spriteRenderer.sprite = active;
                 coll.enabled = false;
                 audioManager.CheckPointSource();
+
+                // 🆕 Save inventory and checkpoint data
+                string currentMap = UnityEngine.SceneManagement.SceneManager.GetActiveScene().name;
+                PlayerPrefs.SetString("CheckpointScene", currentMap);
+                PlayerPrefs.SetInt("HasCheckpoint", 1);
+                InventoryManager.Instance?.SaveInventory();
+                GoldManager.Instance?.SaveGold();
+                WeaponInventory.Instance?.SaveWeapons();
+                playerHealth.SaveHealth();  // 🆕 Also save health
+                PlayerPrefs.Save();
+                Debug.Log("[Checkpoint] Saved checkpoint, inventory, gold, weapons and health data.");
             }
         }
     }

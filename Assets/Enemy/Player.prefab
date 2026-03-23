@@ -344,8 +344,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c96d1774aab92ae4fa7df4e14790c081, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxHealth: 10
-  currentHealth: 10
+  maxHealth: 100
+  currentHealth: 100
 --- !u!1 &3720655589110883018
 GameObject:
   m_ObjectHideFlags: 0
@@ -1226,8 +1226,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ebd998e1f798f4d47bcd763807dbf916, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 100
   checkpointPos: {x: 0, y: 0, z: 0}
+  maxHealth: 0
+  healthBar: {fileID: 0}
+  OnDeath:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!1 &8655757835977144629
 GameObject:
   m_ObjectHideFlags: 0

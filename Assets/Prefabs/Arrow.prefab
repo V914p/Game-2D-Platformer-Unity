@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3505111740317601030}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: DamagePosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -42,8 +42,9 @@ GameObject:
   - component: {fileID: 863345142214344166}
   - component: {fileID: 8703616869511907253}
   - component: {fileID: 742257160091683798}
-  - component: {fileID: 7210331509934864918}
-  m_Layer: 9
+  - component: {fileID: 4150291642617717520}
+  - component: {fileID: 6810840513784977931}
+  m_Layer: 0
   m_Name: Arrow
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -133,7 +134,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 8
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -144,8 +145,8 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 1
-  m_Constraints: 0
---- !u!114 &7210331509934864918
+  m_Constraints: 4
+--- !u!114 &4150291642617717520
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -154,15 +155,60 @@ MonoBehaviour:
   m_GameObject: {fileID: 5940347855335192143}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3eba3f1afa6dc6498e3f9010d8981f3, type: 3}
+  m_Script: {fileID: 11500000, guid: 5641a3923ddf2ea48bd6743d56c5678b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   gravity: 3
-  damageRadius: 0.17
-  whatIsPlayer:
-    serializedVersion: 2
-    m_Bits: 8
+  damageRadius: 0.15
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
+  whatIsPlayer:
+    serializedVersion: 2
+    m_Bits: 8
   damagePosition: {fileID: 3505111740317601030}
+--- !u!61 &6810840513784977931
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5940347855335192143}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 0.9375, y: 0.15625}
+    newSize: {x: 0.9375, y: 0.15625}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 0.9375, y: 0.15625}
+  m_EdgeRadius: 0

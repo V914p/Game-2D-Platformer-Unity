@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Saus.CoreSystem;
+using UnityEngine;
 
 public class DeathZone : MonoBehaviour
 {
@@ -13,14 +14,24 @@ public class DeathZone : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            Stats stats = collision.GetComponentInChildren<Stats>();
+            PlayerHealth playerHealth = collision.GetComponent<PlayerHealth>();
 
-            if (stats != null)
+            if (playerHealth != null)
             {
-                stats.DecreaseHealth(9999); // cho mất hết máu
+                // Chơi âm thanh chết
                 if (audioManager != null)
                     audioManager.DeathSource();
-            }
+
+                var respawnManager = FindAnyObjectByType<PlayerRespawnManager>();
+                if (respawnManager != null)
+                {
+                    respawnManager.ForceRespawnPlayer();
+                }
+                else
+                {
+                    Debug.LogError("[DeathZone] Không tìm thấy PlayerRespawnManager!");
+                }
+                }
         }
     }
 }

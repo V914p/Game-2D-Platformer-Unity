@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Saus.CoreSystem;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
@@ -88,7 +89,7 @@ public class EnemyManager : MonoBehaviour
             }
 
             // Reset position
-            enemy.transform.position = enemy.initialPosition;
+            //enemy.transform.position = enemy.initialPosition;
 
             // Reset state machine
             var enemy1 = enemy.GetComponent<Enemy1>();
@@ -107,18 +108,18 @@ public class EnemyManager : MonoBehaviour
             }
 
             // Reset state variables
-            if (enemy.entityData != null)
-            {
-                enemy.SetIsDead(false);
-                enemy.SetIsStunned(false);
-                enemy.SetHealth(enemy.entityData.maxHealth);
-                enemy.SetStunResistance(enemy.entityData.stunResistance);
-            }
-            else
-            {
-                Debug.LogWarning($"entityData for {enemy.name} is null.", enemy);
-            }
-            enemy.ResetLastDamageTime();
+            //if (enemy.entityData != null)
+            //{
+            //    enemy.SetIsDead(false);
+            //    enemy.SetIsStunned(false);
+            //    enemy.SetHealth(enemy.entityData.maxHealth);
+            //    enemy.SetStunResistance(enemy.entityData.stunResistance);
+            //}
+            //else
+            //{
+            //    Debug.LogWarning($"entityData for {enemy.name} is null.", enemy);
+            //}
+            //enemy.ResetLastDamageTime();
 
             // Reset Rigidbody2D
             var movement = enemy.GetComponentInChildren<Movement>();
@@ -145,7 +146,7 @@ public class EnemyManager : MonoBehaviour
             enemy.StopAllCoroutines();
 
             // Call custom ResetState
-            enemy.ResetState();
+            //enemy.ResetState();
 
             newEnemies.Add(enemy);
         }
@@ -165,5 +166,18 @@ public class EnemyManager : MonoBehaviour
     {
         enemies.Remove(entity);
         enemyData.Remove(entity); // Also remove from enemyData
+    }
+
+    // 🆕 Kiểm tra xem còn enemy sống nào không
+    public bool HasRemainingEnemies()
+    {
+        foreach (var enemy in enemies)
+        {
+            if (enemy != null && enemy.gameObject.activeSelf)
+            {
+                return true; // Còn enemy sống
+            }
+        }
+        return false; // Hết enemy
     }
 }
